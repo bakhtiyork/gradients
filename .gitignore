@@ -1,0 +1,12 @@
+*.iml
+.gradle
+/local.properties
+/.idea
+.project
+.settings
+.classpath
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+webgradients
