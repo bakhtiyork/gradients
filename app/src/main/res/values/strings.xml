@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Gradients</string>
+    <string name="menu_about">About</string>
+    <string name="text_about">A curated collection of splendid gradients made in Kotlin</string>
+    <string name="text_github">GitHub</string>
+    <string name="url">https://github.com/bakhtiyork/gradients</string>
 </resources>

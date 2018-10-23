@@ -25,11 +25,6 @@ class MainFragment : Fragment(), View.OnClickListener {
         recycler_view.layoutManager = GridLayoutManager(view.context, columnsCount(activity))
     }
 
-    override fun onResume() {
-        super.onResume()
-        activity?.title = getString(R.string.app_name)
-    }
-
     override fun onClick(v: View?) {
         v?.tag?.let { tag ->
             val colorName = tag as String
@@ -48,7 +43,6 @@ class MainFragment : Fragment(), View.OnClickListener {
                     .commit()
         }
     }
-
 
     fun columnsCount(context: Context?): Int {
         val colWidth = resources.getDimensionPixelSize(R.dimen.colon_width)

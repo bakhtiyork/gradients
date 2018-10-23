@@ -27,8 +27,8 @@ class ColorFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        colorName?.let {
-            val gradientDrawable: WebGradientDrawable? = Gradients.find(it)
+        colorName?.let { colorName ->
+            val gradientDrawable: WebGradientDrawable? = Gradients.find(colorName)
             if (gradientDrawable != null) {
                 view.background = gradientDrawable
                 view.setOnClickListener { fragmentManager?.popBackStack() }
