@@ -9,48 +9,23 @@ buildscript {
     }
 }
 
-
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'com.jfrog.bintray'
+apply plugin: 'maven-publish'
 
 
-ext {
-    bintrayRepo = 'maven'
-    bintrayName = 'gradients'
-
-    publishedGroupId = 'com.bakhtiyor.gradients'
-    libraryName = 'gradients'
-    artifact = 'gradients'
-
-    libraryDescription = 'A curated collection of splendid gradients made in Kotlin'
-
-    siteUrl = 'https://github.com/bakhtiyork/gradients'
-    gitUrl = 'https://github.com/bakhtiyork/gradients.git'
-
-    libraryVersion = '0.1.0'
-
-    developerId = 'bakhtiyork'
-    developerName = 'Baktiyor Khodjaev'
-    developerEmail = 'opensource@bakhtiyor.com'
-
-    licenseName = 'MIT License'
-    licenseUrl = 'https://opensource.org/licenses/MIT'
-    allLicenses = ["MIT"]
-}
-
+def LIB_VERSION = "0.1.1"
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 30
 
     defaultConfig {
         minSdkVersion 16
-        targetSdkVersion 28
+        targetSdkVersion 30
         versionCode 1
-        versionName "0.1.0"
+        versionName LIB_VERSION
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
 
     buildTypes {
@@ -59,20 +34,37 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation 'com.android.support:appcompat-v7:28.0.0'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    testImplementation 'junit:junit:4.13.1'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
-repositories {
-    mavenCentral()
-}
 
-apply from: rootProject.file('gradle/bintray.gradle')
+afterEvaluate {
+    publishing {
+        repositories {
+            maven {
+                name = "GitHubPackages"
+                url = uri("https://maven.pkg.github.com/bakhtiyork/gradients")
+                credentials {
+                    username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+                    password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
+                }
+            }
+        }
+        publications {
+            gpr(MavenPublication) {
+                from(components.release)
+                groupId = "com.bakhtiyor.gradients"
+                artifactId = "gradients"
+                version = LIB_VERSION
+            }
+        }
+    }
+}
